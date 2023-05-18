@@ -62,10 +62,10 @@ with open("creds.txt", "r") as f:
             id = item["id"]
             tracks = item["tracks"]
 
-            if playlist_name == "Pianos":
+            if playlist_name == "Philosophy":
                 skip = False
             
-            if playlist_name == "totallytori724 + 1635321":
+            if playlist_name == "totallytori724 + 1635321" or playlist_name == "Philosophy":
                 continue
             
             if skip:
@@ -75,7 +75,11 @@ with open("creds.txt", "r") as f:
 
             for track in sp.playlist_tracks(id)["items"]:
                 #URI
-                track_uri = track["track"]["uri"]
+                try:
+                    track_uri = track["track"]["uri"]
+                except:
+                    print("Skipping podcast")
+                    continue
                 
                 #Track name
                 track_name = track["track"]["name"]
