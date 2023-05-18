@@ -67,7 +67,6 @@ with open("data_cleaned.csv", "r") as f:
             a["average_popularity"][index] = (a["average_popularity"][index] * len(a["artist"]) + popularity) / (len(a["artist"]) + 1)
             a["number_of_songs"][index] += 1
     
-
     # Plot speechiness against acousticness and loudness
     # df = pd.DataFrame(data=m)
     # fig = px.scatter(df, x="speechiness", y="acousticness", color="loudness", width=800, height=500)
@@ -91,8 +90,19 @@ with open("data_cleaned.csv", "r") as f:
 
         df = pd.DataFrame(data=a_filtered)
         df.sort_values(by=["number_of_songs"], inplace=True, ascending=True)
-        fig = px.bar(df, x="number_of_songs", y="artist", width=800, height=1600, log_x=True)
-
+        fig = px.bar(df, x="number_of_songs", y="artist", template="plotly_dark", width=800, height=1600, log_x=True)
         fig.show()
     
-    top_artists()
+    def features_chart():
+        df = pd.DataFrame(data=m)
+        fig = px.scatter(df, x="instrumentalness", y="acousticness", color="energy", width=800, height=500)
+        fig.show()
+
+    def polar_chart():
+        df = pd.DataFrame(data=m)
+        fig = px.bar_polar(df, r="instrumentalness", theta="acousticness", color="energy", template="plotly_dark", width=800, height=500, range_r=[0.0, 1.0], range_theta=[0.0, 1.0], range_color=[0.0, 1.0], start_angle=0.0)
+        fig.show()
+
+    features_chart()
+    # top_artists()
+    #polar_chart()
