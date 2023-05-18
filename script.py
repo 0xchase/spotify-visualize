@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 
 import json
+import spotipy
 
 with open("data.json") as f:
     data = json.loads(f.read())
