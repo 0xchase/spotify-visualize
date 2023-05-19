@@ -18,7 +18,7 @@ for line in data:
     if len(genres) > 0 and genres[0] != "":
         artists[artist] = genres
 
-allowed = ["christian", "indie", "electronic", "instrumental", "pop", "classical", "rock", "ambient", "r&b", "metal", "chill"]
+allowed = ["christian", "indie", "electronic", "instrumental", "pop", "classical", "rock", "ambient", "r&b", "metal", "chill", "cinematic"]
 
 with open("dates.csv", "r") as f:
     lines = f.read().splitlines()
@@ -120,7 +120,7 @@ with open("dates.csv", "r") as f:
     def genre_time():
         df = pd.DataFrame(data=g)
         df.sort_values(by=["year"], inplace=True)
-        fig = px.line(df, x="year", y="count", line_group="genre", color="genre", line_shape="spline", render_mode="svg", labels={"year": "Year", "count": "Percentage of Songs Added", "genre": "Genre"}, width=800, height=500)
+        fig = px.line(df, x="year", y="count", line_group="genre", color="genre", line_shape="spline", render_mode="svg", labels={"year": "Year", "count": "Percentage of Songs Added", "genre": "Genre"}, width=800, height=500, template="plotly_dark")
         fig.show()
 
     genre_time()
