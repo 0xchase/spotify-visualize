@@ -136,5 +136,5 @@ with open("dates.csv", "r") as f:
         fig = px.pie(df, values="count", names="genre", title="Genres", labels={"count": "Percentage of Songs Added", "genre": "Genre"}, width=800, height=500, template="plotly_dark")
         fig.show()
 
-    genre_pie()
+    # genre_pie()
     #genre_time()
