@@ -1,8 +1,7 @@
 import json
 from spotipy import *
 
-with open("dates.csv", "w+") as f:
-    f.write("")
+artists = []
 
 with open("creds.txt", "r") as f:
     values = f.read().splitlines()
@@ -30,14 +29,16 @@ with open("creds.txt", "r") as f:
             tracks = sp.playlist_tracks(id)["items"]
             for track in tracks:
                 try:
-                    id = track["track"]["id"]
-                    name = track["track"]["name"]
-                    add_date = track["added_at"].split("T")[0]
-                    release_date = track["track"]["album"]["release_date"]
-                    print("Id: " + id + " | Name: " + name + " | Playlist: " + playlist_name + " | Add Date: " + add_date + " | Release Date: " + release_date)
+                    artist_name = track["track"]["artists"][0]["name"]
+                    artist_id = track["track"]["artists"][0]["id"]
 
-                    with open("dates.csv", "a") as f:
-                        f.write(id + "," + name + "," + playlist_name + "," + add_date + "," + release_date + "\n")
+                    if not artist_name in artists:
+                        artists.append(artist_name)
+                        artist = sp.artist(track["track"]["artists"][0]["external_urls"]["spotify"])
+                        genres = artist["genres"]
+                        print(genres)
+                    
+                        with open("genres.csv", "a") as f:
+                            f.write(artist_name + "," + artist_id + ",.," + ",".join(genres) + "\n")
                 except:
-                    print("Ignoring podcasts")
-                    continue
+                    print("Skipping podcasts")
