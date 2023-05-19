@@ -18,7 +18,7 @@ for line in data:
     if len(genres) > 0 and genres[0] != "":
         artists[artist] = genres
 
-allowed = ["christian", "indie", "electronic", "instrumental", "pop", "classical", "rock", "ambient", "r&b", "metal", "chill", "cinematic"]
+allowed = ["christian", "indie", "electronic", "instrumental", "pop", "classical", "rock", "ambient", "r&b", "metal", "chill", "cinematic", "other"]
 
 with open("dates.csv", "r") as f:
     lines = f.read().splitlines()
@@ -51,15 +51,15 @@ with open("dates.csv", "r") as f:
         for genre in genres:
             if "indie" in genre:
                 genre = "indie"            
-            if "cinematic" in genre or "soundtrack" in genre or "score" in genre or "movie" in genre:
+            if "cinematic" in genre or "soundtrack" in genre or "score" in genre or "movie" in genre or "epic" in genre:
                 genre = "cinematic"
-            if "ambient" in genre or "drone" in genre or "modular" in genre or "synth" in genre or "sleep" in genre or "mellow" in genre or "slow" in genre or "chill" in genre:
+            if "ambient" in genre or "drone" in genre or "modular" in genre or "synth" in genre or "sleep" in genre or "mellow" in genre or "slow" in genre or "chill" in genre or "focus" in genre or "background" in genre or "downtempo" in genre or "minimal" in genre or "room" in genre:
                 genre = "ambient"
             if "classical" in genre or "gregorian" in genre or "violin" in genre or "middle" in genre or "choral" in genre:
                 genre = "classical"
             if "dance" in genre or "house" in genre or "electro" in genre or "trance" in genre or "edm" in genre or "step" in genre:
                 genre = "electronic"
-            if "instrumental" in genre or "avant" in genre or "piano" in genre or (("christian" in genre or "worship" in genre or "gospel" in genre) and add_date >= 2019):
+            if "instrumental" in genre or "avant" in genre or "piano" in genre or (("christian" in genre or "worship" in genre or "gospel" in genre or "pastoral" in genre) and add_date >= 2019):
                 genre = "instrumental"
             if "rock" in genre or "grunge" in genre:
                 genre = "rock"
@@ -120,7 +120,7 @@ with open("dates.csv", "r") as f:
     def genre_time():
         df = pd.DataFrame(data=g)
         df.sort_values(by=["year"], inplace=True)
-        fig = px.line(df, x="year", y="count", line_group="genre", color="genre", line_shape="spline", render_mode="svg", labels={"year": "Year", "count": "Percentage of Songs Added", "genre": "Genre"}, width=800, height=500, template="plotly_dark")
+        fig = px.line(df, x="year", y="count", line_group="genre", color="genre", line_shape="spline", render_mode="svg", labels={"year": "Year", "count": "Percentage of Songs Added", "genre": "Genre"}, width=800, height=500)
         fig.show()
 
     genre_time()
