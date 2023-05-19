@@ -32,12 +32,13 @@ with open("creds.txt", "r") as f:
                 try:
                     id = track["track"]["id"]
                     name = track["track"]["name"]
+                    artist_name = track["track"]["artists"][0]["name"]
                     add_date = track["added_at"].split("T")[0]
                     release_date = track["track"]["album"]["release_date"]
                     print("Id: " + id + " | Name: " + name + " | Playlist: " + playlist_name + " | Add Date: " + add_date + " | Release Date: " + release_date)
 
                     with open("dates.csv", "a") as f:
-                        f.write(id + "," + name + "," + playlist_name + "," + add_date + "," + release_date + "\n")
+                        f.write(id + "," + name + "," + playlist_name + "," + add_date + "," + release_date + "," + artist_name + "\n")
                 except:
                     print("Ignoring podcasts")
                     continue
