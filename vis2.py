@@ -18,7 +18,7 @@ for line in data:
     if len(genres) > 0 and genres[0] != "":
         artists[artist] = genres
 
-allowed = ["christian", "indie", "electronic", "instrumental", "pop", "classical", "rock", "ambient", "r&b", "metal", "chill", "cinematic", "other"]
+allowed = ["ccm", "indie", "electronic", "instrumental", "pop", "classical", "rock", "ambient", "r&b", "metal", "chill", "cinematic", "other"]
 
 with open("dates.csv", "r") as f:
     lines = f.read().splitlines()
@@ -68,7 +68,7 @@ with open("dates.csv", "r") as f:
             if "pop" in genre:
                 genre = "pop"
             if "christian" in genre or "worship" in genre or "gospel" in genre or "ccm" in genre:
-                genre = "christian"
+                genre = "ccm"
             if "boy" in genre or "jazz" in genre or "blues" in genre or "metal" in genre or "r&b" in genre or "soul" in genre or "funk" in genre:
                 genre = "other"
 
@@ -98,29 +98,43 @@ with open("dates.csv", "r") as f:
     print(g)
     print("Found " + str(len(g["genre"])) + " genres")
 
-    min_year = 3000
-    max_year = 0
-
-    for year in g["year"]:
-        if year < min_year:
-            min_year = year
-        if year > max_year:
-            max_year = year
-    
-    for y in range(min_year, max_year + 1):
-        total = 0
-        for i in range(len(g["genre"])):
-            if g["year"][i] == y:
-                total += g["count"][i]
-        
-        for i in range(len(g["genre"])):
-            if g["year"][i] == y:
-                g["count"][i] = g["count"][i] / total * 100
-
     def genre_time():
+        min_year = 3000
+        max_year = 0
+
+        for year in g["year"]:
+            if year < min_year:
+                min_year = year
+            if year > max_year:
+                max_year = year
+        
+        for y in range(min_year, max_year + 1):
+            total = 0
+            for i in range(len(g["genre"])):
+                if g["year"][i] == y:
+                    total += g["count"][i]
+            
+            for i in range(len(g["genre"])):
+                if g["year"][i] == y:
+                    g["count"][i] = g["count"][i] / total * 100
+
         df = pd.DataFrame(data=g)
         df.sort_values(by=["year"], inplace=True)
         fig = px.line(df, x="year", y="count", line_group="genre", color="genre", line_shape="spline", render_mode="svg", labels={"year": "Year", "count": "Percentage of Songs Added", "genre": "Genre"}, width=800, height=500)
         fig.show()
+    
+    def genre_pie():
+        total = 0
+        for i in range(len(g["genre"])):
+            total += g["count"][i]
+        
+        for i in range(len(g["genre"])):
+            g["count"][i] = g["count"][i] / total * 100
 
-    genre_time()
+        df = pd.DataFrame(data=g)
+        df.sort_values(by=["count"], inplace=True)
+        fig = px.pie(df, values="count", names="genre", title="Genres", labels={"count": "Percentage of Songs Added", "genre": "Genre"}, width=800, height=500, template="plotly_dark")
+        fig.show()
+
+    genre_pie()
+    #genre_time()
